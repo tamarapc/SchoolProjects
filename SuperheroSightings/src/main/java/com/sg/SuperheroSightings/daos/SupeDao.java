@@ -7,6 +7,7 @@ package com.sg.SuperheroSightings.daos;
 
 import com.sg.SuperheroSightings.dtos.Location;
 import com.sg.SuperheroSightings.dtos.Org;
+import com.sg.SuperheroSightings.dtos.Power;
 import com.sg.SuperheroSightings.dtos.Supe;
 import java.util.List;
 
@@ -24,7 +25,13 @@ public interface SupeDao {
     
     List<Supe> getSupesByLoc(Location location) throws DaoException;
     List<Supe> getSupesByOrg(Org organization) throws DaoException;
-    
+    List<Power> getAllPowers() throws DaoException;
+
+    public List<Supe> getSupesBySighting(int id) throws DaoException;
+
+    public void deletePower(int id) throws DaoException;
+
+    public Power addPower(Power power) throws DaoException;
     
     
 }

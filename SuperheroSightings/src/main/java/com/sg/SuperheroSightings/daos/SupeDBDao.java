@@ -34,7 +34,7 @@ public class SupeDBDao implements SupeDao {
     JdbcTemplate template;
 
     @Override
-    public Supe getSupeById(int id) throws DaoException{
+    public Supe getSupeById(int id) throws DaoException {
         try {
             String byIdQuery = "SELECT s.Id, s.Name, s.Description, p.Id as PId, "
                     + "p.Name as PName  FROM Supers s "
@@ -49,7 +49,7 @@ public class SupeDBDao implements SupeDao {
     }
 
     @Override
-    public List<Supe> getAllSupes() throws DaoException{
+    public List<Supe> getAllSupes() throws DaoException {
         String getAllQuery = "SELECT s.Id, s.Name, s.Description, p.Id as PId, "
                 + "p.Name as PName \n FROM Supers s \n"
                 + "inner join Powers p on s.PowerId = p.Id";
@@ -57,7 +57,7 @@ public class SupeDBDao implements SupeDao {
     }
 
     @Override
-    public Supe addSupe(Supe supe) throws DaoException{
+    public Supe addSupe(Supe supe) throws DaoException {
 
         String insert = "INSERT INTO Supers(Name, Description, PowerId) VALUES(?,?,?)";
 
@@ -68,25 +68,27 @@ public class SupeDBDao implements SupeDao {
 
             toReturn.setString(1, supe.getName());
             toReturn.setString(2, supe.getDescription());
-            toReturn.setInt(3, supe.getSuperpower().getId());
+            toReturn.setInt(3, supe.getPower().getId());
             return toReturn;
         };
 
         template.update(psc, holder);
         int id = holder.getKey().intValue();
         supe.setId(id);
-        insertSupeInOrg(supe);
+        if (!supe.getOrgs().isEmpty()) {
+            insertSupeInOrg(supe);
+        }
         return supe;
     }
 
     @Override
-    public void updateSupe(Supe supe) throws DaoException{
+    public void updateSupe(Supe supe) throws DaoException {
         String updateSupe = "UPDATE Supers SET name = ?, description = ?, "
                 + "PowerId = ? WHERE id = ?";
         template.update(updateSupe,
                 supe.getName(),
                 supe.getDescription(),
-                supe.getSuperpower().getId(),
+                supe.getPower().getId(),
                 supe.getId());
         String deleteSupeInOrg = "delete from SupersInOrganizations where SuperId = ?";
         template.update(deleteSupeInOrg, supe.getId());
@@ -94,7 +96,7 @@ public class SupeDBDao implements SupeDao {
     }
 
     @Override
-    public void deleteSupe(int id) throws DaoException{
+    public void deleteSupe(int id) throws DaoException {
         String deleteSupeOrg = "Delete from SupersInOrganizations where SuperId = ?";
         template.update(deleteSupeOrg, id);
 
@@ -106,7 +108,7 @@ public class SupeDBDao implements SupeDao {
     }
 
     @Override
-    public List<Supe> getSupesByLoc(Location location) throws DaoException{
+    public List<Supe> getSupesByLoc(Location location) throws DaoException {
         String supesLocQuery = "SELECT s.Id, s.Name, s.Description, p.Id as PId, "
                 + "p.Name as PName FROM Supers s \n"
                 + "inner join Powers p on s.PowerId = p.Id \n"
@@ -117,7 +119,7 @@ public class SupeDBDao implements SupeDao {
     }
 
     @Override
-    public List<Supe> getSupesByOrg(Org organization) throws DaoException{
+    public List<Supe> getSupesByOrg(Org organization) throws DaoException {
         String supesOrgQuery = "SELECT s.Id, s.Name, s.Description, "
                 + "p.Id as PId, p.Name as PName FROM Supers s \n"
                 + "inner join Powers p on s.PowerId = p.Id \n"
@@ -126,12 +128,75 @@ public class SupeDBDao implements SupeDao {
         return template.query(supesOrgQuery, new SuperMapper(), organization.getId());
     }
 
-    private void insertSupeInOrg(Supe supe) throws DaoException{
+    private void insertSupeInOrg(Supe supe) throws DaoException {
+        String delete = "delete from SupersInOrganizations where SuperId = ?";
+        template.update(delete, supe.getId());
+        
         String insertOrgs = "Insert into SupersInOrganizations"
                 + "(SuperId, OrganizationId) values (?,?)";
-        for (Org orgs : supe.getOrganizations()) {
+        for (Org orgs : supe.getOrgs()) {
             template.update(insertOrgs, supe.getId(), orgs.getId());
         }
+    }
+
+    @Override
+    public List<Power> getAllPowers() throws DaoException {
+        String query = "Select * from Powers";
+        List<Power> powers = template.query(query, new PowerMapper());
+        return powers;
+    }
+
+    @Override
+    public List<Supe> getSupesBySighting(int id) {
+        String supesSightQuery = "SELECT s.Id, s.Name, s.Description, p.Id as PId, "
+                + "p.Name as PName FROM Supers s "
+                + "inner join Powers p on s.PowerId = p.Id "
+                + "inner join SupersPerSightings sps on s.Id = sps.SuperId "
+                + " WHERE sps.SightingId = ?";
+        return template.query(supesSightQuery, new SuperMapper(), id);
+    }
+
+    @Override
+    public void deletePower(int id) throws DaoException {
+        String deleteSupSight = "delete sps.* from SupersPerSightings sps "
+                + "inner join Supers s on sps.SuperId = s.Id "
+                + "where s.PowerId = ?";
+        
+        template.update(deleteSupSight, id);
+        
+        String deleteSupOrg = "delete so.* from SupersInOrganizations so "
+                + "inner join Supers s on so.SuperId = s.Id "
+                + "where s.PowerId = ?";
+        
+        template.update(deleteSupOrg, id);
+        
+        String deleteSuper = "delete from Supers where PowerId = ?";
+        
+        template.update(deleteSuper, id);
+        
+        String deletePower = "delete from Powers where Id = ?";
+        
+        template.update(deletePower, id);
+    }
+
+    @Override
+    public Power addPower(Power power) throws DaoException {
+        String addPower = "Insert into Powers(Name) values (?)";
+        
+        GeneratedKeyHolder holder = new GeneratedKeyHolder();
+
+        PreparedStatementCreator psc = (Connection con) -> {
+            PreparedStatement toReturn = con.prepareStatement(addPower, Statement.RETURN_GENERATED_KEYS);
+
+            toReturn.setString(1, power.getName());
+            return toReturn;
+        };
+
+        template.update(psc, holder);
+        int id = holder.getKey().intValue();
+        power.setId(id);
+        
+        return power;
     }
 
     private static class SuperMapper implements RowMapper<Supe> {
@@ -148,9 +213,22 @@ public class SupeDBDao implements SupeDao {
             power.setId(rs.getInt("PId"));
             power.setName(rs.getString("PName"));
 
-            newSuper.setSuperpower(power);
+            newSuper.setPower(power);
             return newSuper;
 
+        }
+
+    }
+
+    private static class PowerMapper implements RowMapper<Power> {
+
+        @Override
+        public Power mapRow(ResultSet rs, int i) throws SQLException {
+            Power pow = new Power();
+
+            pow.setName(rs.getString("Name"));
+            pow.setId(rs.getInt("Id"));
+            return pow;
         }
 
     }

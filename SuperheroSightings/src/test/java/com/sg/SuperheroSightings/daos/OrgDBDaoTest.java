@@ -88,8 +88,8 @@ public class OrgDBDaoTest {
         firstSupe.setDescription("Super super fast");
         Power power = new Power();
         power.setId(1);
-        firstSupe.setSuperpower(power);
-        firstSupe.setOrganizations(newOrgs);
+        firstSupe.setPower(power);
+        firstSupe.setOrgs(newOrgs);
         Supe addedSupe = supeDao.addSupe(firstSupe);
         supes.add(addedSupe);
         

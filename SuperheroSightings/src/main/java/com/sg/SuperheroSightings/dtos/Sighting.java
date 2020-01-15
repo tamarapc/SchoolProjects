@@ -6,8 +6,9 @@
 package com.sg.SuperheroSightings.dtos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -17,9 +18,15 @@ public class Sighting {
     
     private int id;
     private Location location;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-    private List<Supe> supers;
+    private List<Supe> supers = new ArrayList();
 
+    
+    public boolean supersPerSighting(int superId){
+        return supers.stream().anyMatch(s -> s.getId() == superId);
+    }
+    
     /**
      * @return the id
      */

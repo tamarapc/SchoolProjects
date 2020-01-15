@@ -4,12 +4,12 @@ use SuperheroSightings;
 
 create table Powers(
 Id int primary key auto_increment,
-Name varchar(50) not null
+`Name` varchar(50) not null
 );
 
 create table Supers(
 Id int primary key auto_increment,
-Name varchar(30) not null,
+`Name` varchar(30) not null,
 Description varchar(300) null,
 PowerId int not null,
 
@@ -20,7 +20,7 @@ references Powers (Id)
 
 create table Organizations(
 Id int primary key auto_increment,
-Name varchar(50) not null,
+`Name` varchar(50) not null,
 Description varchar(300) not null,
 Contact varchar(200) not null
 );
@@ -40,7 +40,7 @@ references Organizations (Id)
 
 create table Locations(
 Id int primary key auto_increment,
-Name varchar(50) not null,
+`Name` varchar(50) not null,
 Description varchar(300) not null,
 Address varchar(200) not null,
 Latitude decimal(9,6) not null,
@@ -66,3 +66,13 @@ references Supers (Id),
 foreign key fk_SupersPerSightings_Sightings (SightingId)
 references Sightings (Id)
 );
+
+insert into Powers(`Name`) 
+values('SuperSpeed');
+
+insert into Locations(`Name`, Description, Address, Latitude, Longitude)
+values
+('Minneapolis Skyway', 'Yep', '5555 Nicolett Mall', 44.979166, -93.271894);
+
+insert into Organizations(`Name`, Description, Contact)
+values ('Justice League', 'Pretty Cool', 'Take three lefts, one right, a left, and then four rights and you will find them');

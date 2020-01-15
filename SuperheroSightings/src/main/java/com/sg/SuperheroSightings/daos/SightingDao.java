@@ -5,6 +5,7 @@
  */
 package com.sg.SuperheroSightings.daos;
 
+import com.sg.SuperheroSightings.dtos.Location;
 import com.sg.SuperheroSightings.dtos.Sighting;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,5 +23,14 @@ public interface SightingDao {
     void deleteSighting(int id) throws DaoException;
     
     List<Sighting> getSightingsByDate(LocalDate date) throws DaoException;
+    List<Location> getAllLocations() throws DaoException;
+
+    public Location getLocById(int id) throws DaoException;
+
+    public Location addLocation(Location loc) throws DaoException;
+
+    public void deleteLocation(int id) throws DaoException;
+
+    public void updateLocation(Location loc) throws DaoException;
     
 }

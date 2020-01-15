@@ -62,7 +62,9 @@ public class OrgDBDao implements OrgDao {
         template.update(psc, holder);
         int id = holder.getKey().intValue();
         org.setId(id);
-//        insertOrgAndSupes(org);
+        if (!org.getAllSupers().isEmpty()) {
+            insertOrgAndSupes(org);
+        }
         return org;
 
     }
@@ -100,6 +102,9 @@ public class OrgDBDao implements OrgDao {
     }
 
     private void insertOrgAndSupes(Org org) throws DaoException{
+        String delete = "delete from SupersInOrganizations where OrganizationID = ?";
+        template.update(delete, org.getId());
+        
         String insertOrgs = "Insert into SupersInOrganizations"
                 + "(SuperId, OrganizationID) values (?,?)";
         for (Supe supe : org.getAllSupers()) {

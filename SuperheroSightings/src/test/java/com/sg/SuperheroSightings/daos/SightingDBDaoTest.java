@@ -5,6 +5,7 @@
  */
 package com.sg.SuperheroSightings.daos;
 
+import com.sg.SuperheroSightings.dtos.Location;
 import com.sg.SuperheroSightings.dtos.Org;
 import com.sg.SuperheroSightings.dtos.Sighting;
 import com.sg.SuperheroSightings.dtos.Supe;
@@ -14,7 +15,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +36,8 @@ public class SightingDBDaoTest {
 
     @Autowired
     OrgDao orgDao;
+    
+    Location firstLoc = new Location();
     
     public SightingDBDaoTest() {
     }
@@ -77,6 +79,9 @@ public class SightingDBDaoTest {
      */
     @Test
     public void testGetSightingById() throws Exception {
+        
+        
+        
     }
 
     /**

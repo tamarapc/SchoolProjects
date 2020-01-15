@@ -5,8 +5,8 @@
  */
 package com.sg.SuperheroSightings.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -16,9 +16,13 @@ public class Supe {
     private int id;
     private String name;
     private String description;
-    private Power superpower;
-    private List<Org> organizations;
-    private List<Sighting> sightings;
+    private Power power;
+    private List<Org> orgs = new ArrayList();
+    private List<Sighting> sightings = new ArrayList();
+    
+    public boolean inOrg(int orgId){
+        return orgs.stream().anyMatch(o -> o.getId() == orgId);
+    }
 
     /**
      * @return the id
@@ -65,15 +69,15 @@ public class Supe {
     /**
      * @return the organizations
      */
-    public List<Org> getOrganizations() {
-        return organizations;
+    public List<Org> getOrgs() {
+        return orgs;
     }
 
     /**
-     * @param organizations the organizations to set
+     * @param orgs the organizations to set
      */
-    public void setOrganizations(List<Org> organizations) {
-        this.organizations = organizations;
+    public void setOrgs(List<Org> orgs) {
+        this.orgs = orgs;
     }
 
     /**
@@ -93,15 +97,15 @@ public class Supe {
     /**
      * @return the superpower
      */
-    public Power getSuperpower() {
-        return superpower;
+    public Power getPower() {
+        return power;
     }
 
     /**
-     * @param superpower the superpower to set
+     * @param power the superpower to set
      */
-    public void setSuperpower(Power superpower) {
-        this.superpower = superpower;
+    public void setPower(Power power) {
+        this.power = power;
     }
     
 }

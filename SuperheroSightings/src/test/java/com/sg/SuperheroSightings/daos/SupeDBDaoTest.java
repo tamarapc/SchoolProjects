@@ -82,7 +82,7 @@ public class SupeDBDaoTest {
         firstSupe.setDescription("Super super fast");
         Power power = new Power();
         power.setId(1);
-        firstSupe.setSuperpower(power);
+        firstSupe.setPower(power);
 
         Org org = new Org();
         org.setName("SuperLeague");
@@ -90,7 +90,7 @@ public class SupeDBDaoTest {
         org.setContact("Call 555-555-5555");
         Org addedOrg = orgDao.addOrg(org);
         orgsToSet.add(addedOrg);
-        firstSupe.setOrganizations(orgsToSet);
+        firstSupe.setOrgs(orgsToSet);
         Supe addedSupe = supeDao.addSupe(firstSupe);
         supes.add(addedSupe);
         
@@ -111,9 +111,9 @@ public class SupeDBDaoTest {
             supe.setName("Flash");
             Power power = new Power();
             power.setId(1);
-            supe.setSuperpower(power);
+            supe.setPower(power);
 
-            supe.setOrganizations(orgsToSet);
+            supe.setOrgs(orgsToSet);
             supe.setDescription("Can go back in time thanks to SuperSpeed");
 
             Supe addedSupe = supeDao.addSupe(supe);
@@ -121,7 +121,7 @@ public class SupeDBDaoTest {
 
             assertEquals(addedSupe.getId(), toTest.getId());
             assertEquals(addedSupe.getName(), toTest.getName());
-            assertEquals(addedSupe.getSuperpower().getId(), toTest.getSuperpower().getId());
+            assertEquals(addedSupe.getPower().getId(), toTest.getPower().getId());
             assertEquals(addedSupe.getDescription(), toTest.getDescription());
         } catch (DaoException ex) {
             fail();
@@ -139,9 +139,9 @@ public class SupeDBDaoTest {
             supe.setName("Flash");
             Power power = new Power();
             power.setId(1);
-            supe.setSuperpower(power);
+            supe.setPower(power);
             
-            supe.setOrganizations(orgsToSet);
+            supe.setOrgs(orgsToSet);
             supe.setDescription("Can go back in time thanks to SuperSpeed");
 
             Supe addedSupe = supeDao.addSupe(supe);
@@ -152,7 +152,7 @@ public class SupeDBDaoTest {
 
             assertEquals(addedSupe.getId(), toTest.getId());
             assertEquals(addedSupe.getName(), toTest.getName());
-            assertEquals(addedSupe.getSuperpower().getId(), toTest.getSuperpower().getId());
+            assertEquals(addedSupe.getPower().getId(), toTest.getPower().getId());
             assertEquals(addedSupe.getDescription(), toTest.getDescription());
         } catch (DaoException ex) {
             fail();
@@ -176,9 +176,9 @@ public class SupeDBDaoTest {
             supe.setName("Flash");
             Power power = new Power();
             power.setId(1);
-            supe.setSuperpower(power);
+            supe.setPower(power);
            
-            supe.setOrganizations(orgsToSet);
+            supe.setOrgs(orgsToSet);
             supe.setDescription("Can go back in time thanks to SuperSpeed");
 
             Supe updateSupe = supeDao.addSupe(supe);
@@ -188,7 +188,7 @@ public class SupeDBDaoTest {
 
             assertEquals(updateSupe.getId(), toTest.getId());
             assertEquals(updateSupe.getName(), toTest.getName());
-            assertEquals(updateSupe.getSuperpower().getId(), toTest.getSuperpower().getId());
+            assertEquals(updateSupe.getPower().getId(), toTest.getPower().getId());
             assertEquals(updateSupe.getDescription(), toTest.getDescription());
         } catch (DaoException ex) {
             fail();
@@ -207,9 +207,9 @@ public class SupeDBDaoTest {
             supe.setName("Flash");
             Power power = new Power();
             power.setId(1);
-            supe.setSuperpower(power);
+            supe.setPower(power);
 
-            supe.setOrganizations(orgsToSet);
+            supe.setOrgs(orgsToSet);
             supe.setDescription("Can go back in time thanks to SuperSpeed");
 
             Supe addedSupe = supeDao.addSupe(supe);
@@ -248,7 +248,7 @@ public class SupeDBDaoTest {
 
             assertEquals(firstSupe.getId(), toTest.getId());
             assertEquals(firstSupe.getName(), toTest.getName());
-            assertEquals(firstSupe.getSuperpower().getId(), toTest.getSuperpower().getId());
+            assertEquals(firstSupe.getPower().getId(), toTest.getPower().getId());
             assertEquals(firstSupe.getDescription(), toTest.getDescription());
 
         } catch (DaoException ex) {
@@ -268,14 +268,14 @@ public class SupeDBDaoTest {
             supe.setName("Flash");
             Power power = new Power();
             power.setId(1);
-            supe.setSuperpower(power);
+            supe.setPower(power);
             Org org = new Org();
             org.setName("SuperLeague2");
             org.setDescription("SuperSuper");
             org.setContact("Call 555-555-5555");
             Org addedOrg = orgDao.addOrg(org);
             orgsToSet.add(addedOrg);
-            supe.setOrganizations(orgsToSet);
+            supe.setOrgs(orgsToSet);
             supe.setDescription("Can go back in time thanks to SuperSpeed");
 
             Supe addedSupe = supeDao.addSupe(supe);
@@ -286,7 +286,7 @@ public class SupeDBDaoTest {
 
             assertEquals(addedSupe.getId(), toTest.getId());
             assertEquals(addedSupe.getName(), toTest.getName());
-            assertEquals(addedSupe.getSuperpower().getId(), toTest.getSuperpower().getId());
+            assertEquals(addedSupe.getPower().getId(), toTest.getPower().getId());
             assertEquals(addedSupe.getDescription(), toTest.getDescription());
 
         } catch (DaoException ex) {

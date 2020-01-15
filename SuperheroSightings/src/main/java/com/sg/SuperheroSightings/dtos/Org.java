@@ -5,6 +5,7 @@
  */
 package com.sg.SuperheroSightings.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +19,11 @@ public class Org {
     private String name;
     private String description;
     private String contact;
-    private List<Supe> allSupers;
+    private List<Supe> allSupers = new ArrayList();
+    
+    public boolean supersInOrg(int superId){
+        return allSupers.stream().anyMatch(s -> s.getId() == superId);
+    }
 
     /**
      * @return the id
